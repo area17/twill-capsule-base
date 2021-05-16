@@ -2,7 +2,6 @@
 
 namespace App\Twill\Base\Behaviors;
 
-use Exception;
 use Illuminate\Support\Str;
 
 trait Finder
@@ -19,9 +18,7 @@ trait Finder
             return $this->findByAnyColumnName($name, $arguments);
         }
 
-        throw new Exception(
-            sprintf('Method not found: %s@%s', get_class($this), $name),
-        );
+        return parent::__call($name, $arguments);
     }
 
     /**
