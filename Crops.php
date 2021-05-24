@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Twill\Base;
+namespace App\Twill\Capsules\Base;
 
 class Crops
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Twill\Base\Behaviors;
+namespace App\Twill\Capsules\Base\Behaviors;
 
 use Illuminate\Support\Str;
 

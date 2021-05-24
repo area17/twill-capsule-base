@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Twill\Base;
+namespace App\Twill\Capsules\Base;
 
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Foundation\Application;

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Twill\Base;
+namespace App\Twill\Capsules\Base;
 
-use App\Twill\Base\Behaviors\Finder;
+use App\Twill\Capsules\Base\Behaviors\Finder;
 use A17\TwillTransformers\RepositoryTrait;
 use A17\Twill\Repositories\ModuleRepository as TwillModuleRepository;
 

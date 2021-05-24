@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Twill\Base\Scopes;
+namespace App\Twill\Capsules\Base\Scopes;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope as IlluminateScope;

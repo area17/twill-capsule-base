@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Twill\Base;
+namespace App\Twill\Capsules\Base;
 
 use A17\Twill\Models\Model as TwillModel;
 use A17\Twill\Models\Behaviors\HasMedias;
-use App\Twill\Base\Scopes\MustBePublished;
+use App\Twill\Capsules\Base\Scopes\MustBePublished;
 use A17\Twill\Models\Behaviors\HasRevisions;
 use A17\Twill\Models\Behaviors\HasTranslation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
