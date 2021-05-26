@@ -3,12 +3,11 @@
 namespace App\Twill\Capsules\Base;
 
 use App\Twill\Capsules\Base\Behaviors\Finder;
-use A17\TwillTransformers\RepositoryTrait;
 use A17\Twill\Repositories\ModuleRepository as TwillModuleRepository;
 
 abstract class ModuleRepository extends TwillModuleRepository
 {
-    use RepositoryTrait, Finder;
+    use Finder;
 
     protected function makeBrowserData($object, $module, $prefix = null): array
     {
