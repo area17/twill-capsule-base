@@ -7,26 +7,41 @@ class Crops
     // Modules
 
     const HOMEPAGE = [
-        'role-homepage-cover' => self::DESKTOP + self::MOBILE + self::SQUARE,
+        'homepage-cover' => self::LANDSCAPE + self::MOBILE + self::SQUARE,
 
-        'role-homepage-slideshow' => self::ORIGINAL,
+        'homepage-slideshow' => self::ORIGINAL,
+    ];
+
+    const COUNTRY = [
+        'country-cover' => self::LANDSCAPE,
+    ];
+
+    const CITY = [
+        'city-cover' => self::LANDSCAPE,
     ];
 
     // Block editor
 
-    const BLOCK_EDITOR = self::ALL_CROPS;
-
-    // Base crops definition
-
-    const ALL_CROPS = [
-        'role-all' =>
-            self::DESKTOP + self::MOBILE + self::SQUARE + self::ORIGINAL,
+    const BLOCK_EDITOR = [
+        'block-editor' =>
+            self::LANDSCAPE + self::MOBILE + self::SQUARE + self::ORIGINAL,
     ];
 
-    const DESKTOP = [
-        'desktop' => [
+    // Crops
+
+    const ORIGINAL = [
+        'original' => [
             [
-                'name' => 'desktop',
+                'name' => 'original',
+                'ratio' => null,
+            ],
+        ],
+    ];
+
+    const LANDSCAPE = [
+        'landscape' => [
+            [
+                'name' => 'landscape',
                 'ratio' => 16 / 9,
             ],
         ],
@@ -46,15 +61,6 @@ class Crops
             [
                 'name' => 'square',
                 'ratio' => 1,
-            ],
-        ],
-    ];
-
-    const ORIGINAL = [
-        'original' => [
-            [
-                'name' => 'original',
-                'ratio' => null,
             ],
         ],
     ];

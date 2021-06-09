@@ -2,12 +2,14 @@
 
 namespace App\Twill\Capsules\Base;
 
+use A17\Twill\Models\Behaviors\HasMedias;
 use App\Twill\Capsules\Base\Behaviors\Finder;
+use A17\TwillTransformers\RepositoryTrait;
 use A17\Twill\Repositories\ModuleRepository as TwillModuleRepository;
 
 abstract class ModuleRepository extends TwillModuleRepository
 {
-    use Finder;
+    use RepositoryTrait, Finder;
 
     protected function makeBrowserData($object, $module, $prefix = null): array
     {
@@ -18,26 +20,36 @@ abstract class ModuleRepository extends TwillModuleRepository
 
             'name' => $object->$titleColumnKey,
 
-            'edit' => moduleRoute($module, null, 'edit', $object->id),
-
-            'thumbnail' => $object->defaultCmsImage([
-                'w' => 100,
-                'h' => 100,
-            ]),
-        ];
+            'edit' => moduleRoute($module, $prefix, 'edit', $object->id),
+        ] +
+            (classHasTrait($object, HasMedias::class)
+                ? [
+                    'thumbnail' => $object->defaultCmsImage([
+                        'w' => 100,
+                        'h' => 100,
+                    ]),
+                ]
+                : []);
     }
 
     protected function getManyToManyBrowserField(
         $model,
         array $fields,
-        $relation
+        $relation,
+        $prefix
     ): array {
         if (blank($models = $model->{$relation})) {
             return $fields;
         }
 
         $fields['browsers'][$relation] = $models
-            ->map(fn($model) => $this->makeBrowserData($model, $relation))
+            ->map(
+                fn($model) => $this->makeBrowserData(
+                    $model,
+                    $relation,
+                    $prefix,
+                ),
+            )
             ->toArray();
 
         return $fields;
@@ -57,11 +69,18 @@ abstract class ModuleRepository extends TwillModuleRepository
         $fields,
         $key,
         $module,
-        $relation
+        $relation,
+        $prefix = null
     ): array {
         if (filled($object = $object->{$relation})) {
             $fields['browsers'][$key] = collect([$object])
-                ->map(fn($country) => $this->makeBrowserData($object, $module))
+                ->map(
+                    fn($country) => $this->makeBrowserData(
+                        $object,
+                        $module,
+                        $prefix,
+                    ),
+                )
                 ->toArray();
         }
 

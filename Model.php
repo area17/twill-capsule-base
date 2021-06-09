@@ -13,7 +13,7 @@ abstract class Model extends TwillModel
 {
     use HasTranslation, HasMedias, HasRevisions, HasFactory;
 
-    public string $titleColumnKey = 'title';
+    public $titleColumnKey = 'title';
 
     public $translatedAttributes = [];
 
