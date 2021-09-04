@@ -23,8 +23,7 @@ class Crops
     // Block editor
 
     const BLOCK_EDITOR = [
-        'block-editor' =>
-            self::LANDSCAPE + self::MOBILE + self::SQUARE + self::ORIGINAL,
+        'block-editor' => self::LANDSCAPE + self::MOBILE + self::SQUARE + self::ORIGINAL,
     ];
 
     // Crops

@@ -39,19 +39,11 @@ trait Finder
      */
     protected function findByAnyColumnName($name, $arguments)
     {
-        return $this->makeQueryByAnyColumnName(
-            'findBy',
-            $name,
-            $arguments,
-        )->first();
+        return $this->makeQueryByAnyColumnName('findBy', $name, $arguments)->first();
     }
 
-    protected function makeQueryByAnyColumnName(
-        $type,
-        $name,
-        $arguments,
-        $query = null
-    ) {
+    protected function makeQueryByAnyColumnName($type, $name, $arguments, $query = null)
+    {
         $query ??= $this->new();
 
         $column = Str::snake(Str::after($name, $type));

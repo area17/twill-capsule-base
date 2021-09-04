@@ -11,4 +11,9 @@ abstract class Scope implements IlluminateScope
     {
         return collect($model->getFillable())->contains('published');
     }
+
+    public function isTranslatable(Model $model): bool
+    {
+        return filled($model->translatedAttributes ?? null);
+    }
 }

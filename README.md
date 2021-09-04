@@ -12,7 +12,7 @@ It's recommended to fork or just download this repository and put it on `app/Twi
 
 This module assumes your application frontend routes are all prefixed by `front.`. This can be done easily by configuring them on your `RouteServiceProvider.php`:
 
-``` php
+```php
 public function boot()
 {
     $this->configureRateLimiting();

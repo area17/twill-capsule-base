@@ -2,6 +2,7 @@
 
 namespace App\Twill\Capsules\Base;
 
+use A17\CDN\Behaviours\HasCDNTags;
 use A17\Twill\Models\Behaviors\HasMedias;
 use App\Twill\Capsules\Base\Behaviors\Finder;
 use A17\TwillTransformers\RepositoryTrait;
@@ -9,7 +10,19 @@ use A17\Twill\Repositories\ModuleRepository as TwillModuleRepository;
 
 abstract class ModuleRepository extends TwillModuleRepository
 {
-    use RepositoryTrait, Finder;
+    use RepositoryTrait, Finder, HasCDNTags;
+
+    /**
+     * @param \A17\Twill\Models\Model $object
+     * @param array $fields
+     * @return void
+     */
+    public function afterSave($object, $fields)
+    {
+        parent::afterSave($object, $fields);
+
+        $this->invalidateCDNTags($object);
+    }
 
     protected function makeBrowserData($object, $module, $prefix = null): array
     {
@@ -32,24 +45,14 @@ abstract class ModuleRepository extends TwillModuleRepository
                 : []);
     }
 
-    protected function getManyToManyBrowserField(
-        $model,
-        array $fields,
-        $relation,
-        $prefix
-    ): array {
+    protected function getManyToManyBrowserField($model, array $fields, $relation, $prefix): array
+    {
         if (blank($models = $model->{$relation})) {
             return $fields;
         }
 
         $fields['browsers'][$relation] = $models
-            ->map(
-                fn($model) => $this->makeBrowserData(
-                    $model,
-                    $relation,
-                    $prefix,
-                ),
-            )
+            ->map(fn($model) => $this->makeBrowserData($model, $relation, $prefix))
             ->toArray();
 
         return $fields;
@@ -64,23 +67,11 @@ abstract class ModuleRepository extends TwillModuleRepository
         $page->save();
     }
 
-    protected function getManyToOneBrowserField(
-        $object,
-        $fields,
-        $key,
-        $module,
-        $relation,
-        $prefix = null
-    ): array {
+    protected function getManyToOneBrowserField($object, $fields, $key, $module, $relation, $prefix = null): array
+    {
         if (filled($object = $object->{$relation})) {
             $fields['browsers'][$key] = collect([$object])
-                ->map(
-                    fn($country) => $this->makeBrowserData(
-                        $object,
-                        $module,
-                        $prefix,
-                    ),
-                )
+                ->map(fn($country) => $this->makeBrowserData($object, $module, $prefix))
                 ->toArray();
         }
 
@@ -92,13 +83,8 @@ abstract class ModuleRepository extends TwillModuleRepository
         return $this->model->where('code', $code)->first();
     }
 
-    public function updateHasManyBrowser(
-        $object,
-        $fields,
-        $formField,
-        $field,
-        $hasManyClass
-    ) {
+    public function updateHasManyBrowser($object, $fields, $formField, $field, $hasManyClass)
+    {
         $items = $fields['browsers'][$formField] ?? null;
 
         if (blank($items)) {

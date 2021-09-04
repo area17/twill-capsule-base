@@ -2,16 +2,17 @@
 
 namespace App\Twill\Capsules\Base;
 
+use A17\CDN\Behaviours\HasCDNTags;
 use A17\Twill\Models\Model as TwillModel;
 use A17\Twill\Models\Behaviors\HasMedias;
-use App\Twill\Capsules\Base\Scopes\MustBePublished;
 use A17\Twill\Models\Behaviors\HasRevisions;
-use A17\Twill\Models\Behaviors\HasTranslation;
+use App\Twill\Capsules\Base\Scopes\MustBePublished;
+use App\Twill\Capsules\Base\Scopes\MustHaveTranslation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 abstract class Model extends TwillModel
 {
-    use HasTranslation, HasMedias, HasRevisions, HasFactory;
+    use HasMedias, HasRevisions, HasFactory, HasCDNTags;
 
     public $titleColumnKey = 'title';
 
@@ -25,5 +26,7 @@ abstract class Model extends TwillModel
     protected static function booted()
     {
         static::addGlobalScope(new MustBePublished());
+
+        static::addGlobalScope(new MustHaveTranslation());
     }
 }
